@@ -47,13 +47,18 @@ require WPCF7PDF_DIR . 'classes/prepare-pdf.php';
 require WPCF7PDF_DIR . 'classes/generate.php';
 require WPCF7PDF_DIR . 'classes/settings.php';
 require WPCF7PDF_DIR . 'includes/shortcodes.php';
+require WPCF7PDF_DIR . 'classes/member-paid-subscriptions.php';
 
 add_action( 'plugins_loaded', '_cf7_sendpdf_load' );
 function _cf7_sendpdf_load() {
-	$cf7_sendpdf = new cf7_sendpdf();
-	$cf7_sendpdf->hooks();
+        $cf7_sendpdf = new cf7_sendpdf();
+        $cf7_sendpdf->hooks();
 
     load_plugin_textdomain( 'send-pdf-for-contact-form-7', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
+    if ( class_exists( 'WPCF7PDF_Member_Paid_Subscriptions' ) ) {
+        WPCF7PDF_Member_Paid_Subscriptions::init();
+    }
 }
 
 // Activate / desactivate / unnstall plugin
